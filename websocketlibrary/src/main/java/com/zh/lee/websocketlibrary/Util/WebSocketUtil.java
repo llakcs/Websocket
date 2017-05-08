@@ -126,7 +126,7 @@ public class WebSocketUtil {
                 Log.e(TAG,"###websocket.close");
                 mWebSocketListener.onClose(code,reason);
                 wsStatus = WS_STATUS_CLOSE;
-              
+
             }
         });
     }
