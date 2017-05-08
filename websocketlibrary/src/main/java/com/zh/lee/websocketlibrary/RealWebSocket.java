@@ -30,8 +30,8 @@ import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
 
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_BINARY;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_TEXT;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_BINARY;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_TEXT;
 
 
 public abstract class RealWebSocket implements WebSocket {

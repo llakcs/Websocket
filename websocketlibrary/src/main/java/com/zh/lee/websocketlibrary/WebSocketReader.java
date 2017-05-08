@@ -27,26 +27,25 @@ import okio.Okio;
 import okio.Source;
 import okio.Timeout;
 
-
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B0_FLAG_FIN;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B0_FLAG_RSV1;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B0_FLAG_RSV2;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B0_FLAG_RSV3;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B0_MASK_OPCODE;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B1_FLAG_MASK;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.B1_MASK_LENGTH;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_BINARY;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_CONTINUATION;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_CONTROL_CLOSE;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_CONTROL_PING;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_CONTROL_PONG;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_FLAG_CONTROL;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.OPCODE_TEXT;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.PAYLOAD_BYTE_MAX;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.PAYLOAD_LONG;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.PAYLOAD_SHORT;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.toggleMask;
-import static com.dchip.smartcommunity.socket.WebSocketProtocol.validateCloseCode;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B0_FLAG_FIN;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B0_FLAG_RSV1;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B0_FLAG_RSV2;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B0_FLAG_RSV3;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B0_MASK_OPCODE;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B1_FLAG_MASK;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.B1_MASK_LENGTH;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_BINARY;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_CONTINUATION;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_CONTROL_CLOSE;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_CONTROL_PING;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_CONTROL_PONG;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_FLAG_CONTROL;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.OPCODE_TEXT;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.PAYLOAD_BYTE_MAX;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.PAYLOAD_LONG;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.PAYLOAD_SHORT;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.toggleMask;
+import static com.zh.lee.websocketlibrary.WebSocketProtocol.validateCloseCode;
 import static java.lang.Integer.toHexString;
 
 /**
