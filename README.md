@@ -14,5 +14,5 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 	
 		dependencies {
-	        compile 'com.github.llakcs:Websocket:0.5'
+	        compile 'com.github.llakcs:Websocket:1.2.1'
 	}

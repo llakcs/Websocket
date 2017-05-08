@@ -1,6 +1,10 @@
-package com.zh.lee.websocketlibrary;
+package com.zh.lee.websocketlibrary.Util;
 
 import android.util.Log;
+
+import com.zh.lee.websocketlibrary.WebSocket;
+import com.zh.lee.websocketlibrary.WebSocketCall;
+import com.zh.lee.websocketlibrary.WebSocketListener;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -13,17 +17,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
-import okio.BufferedSource;
 
 /**
  * Created by lee on 2017/5/8.
  */
 
 public class WebSocketUtil {
+
     /**
      * websocke链接状态
      */
-
     private static final byte WS_STATUS_NULL = 0x11;
     private static final byte WS_STATUS_CONNECTING = 0x12;
     private static final byte WS_STATUS_CLOSE= 0x13;
@@ -38,10 +41,17 @@ public class WebSocketUtil {
      * 检测链接状态（是否在连接中）
      */
     private static byte wsStatus = WS_STATUS_NULL;
-    private RequestBody response = null;
     private static WebSocket mWebSocket;
     private static final ExecutorService sendExecutor = Executors.newSingleThreadExecutor();
     public static WebSocketUtil mUtil = new WebSocketUtil();
+    /**
+     * 获取socket连接状态
+     * @return
+     */
+    public byte getWsStatus() {
+        return wsStatus;
+    }
+
     private WebSocketListener mWebSocketListener = null;
 
     /**
@@ -50,13 +60,6 @@ public class WebSocketUtil {
      */
     public void setWebSocketListener(WebSocketListener webSocketListener){
         this.mWebSocketListener = webSocketListener;
-    }
-    /**
-     * 获取socket连接状态
-     * @return
-     */
-    public byte getWsStatus() {
-        return wsStatus;
     }
 
     public static WebSocketUtil getIns(){
@@ -123,7 +126,7 @@ public class WebSocketUtil {
                 Log.e(TAG,"###websocket.close");
                 mWebSocketListener.onClose(code,reason);
                 wsStatus = WS_STATUS_CLOSE;
-                sendExecutor.shutdown();
+              
             }
         });
     }
@@ -179,6 +182,9 @@ public class WebSocketUtil {
 
 
 
-}
+    }
+
+
+
 
 
