@@ -31,7 +31,7 @@ public class WebSocketUtil {
     private static final byte WS_STATUS_CONNECTING = 0x12;
     private static final byte WS_STATUS_CLOSE= 0x13;
     private static final byte WS_STATUS_CONNECT = 0X14;
-    private static String TAG ="WebsocketSerivce";
+    private static String TAG ="WebSocketUtil";
     final  static OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
             .readTimeout(3000, TimeUnit.SECONDS)//设置读取超时时间
             .writeTimeout(3000, TimeUnit.SECONDS)//设置写的超时时间
@@ -53,7 +53,7 @@ public class WebSocketUtil {
     }
 
     private WebSocketListener mWebSocketListener = null;
-
+    private WebSocketCall webSocketCall;
     /**
      * 回调接口
      * @param webSocketListener
@@ -74,11 +74,11 @@ public class WebSocketUtil {
     public  void init(String url){
         wsStatus =WS_STATUS_CONNECTING;
         Request request = new Request.Builder().url(url).build();
-        WebSocketCall webSocketCall = WebSocketCall.create(mOkHttpClient, request);
+        webSocketCall = WebSocketCall.create(mOkHttpClient, request);
         webSocketCall.enqueue(new WebSocketListener(){
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                Log.d(TAG, "########onOpen");
+                Log.e(TAG, "########onOpen");
                 mWebSocket=webSocket;
                 wsStatus = WS_STATUS_CONNECT;
                 mWebSocketListener.onOpen(webSocket,response);
@@ -91,7 +91,7 @@ public class WebSocketUtil {
              */
             @Override
             public void onFailure(IOException e, Response response) {
-                Log.d(TAG,"onFailure.response:" + response);
+                Log.e(TAG,"onFailure.response:" + response);
                 wsStatus = WS_STATUS_NULL;
                 mWebSocketListener.onFailure(e,response);
             }
@@ -110,7 +110,7 @@ public class WebSocketUtil {
 
             @Override
             public void onPong(Buffer payload) {
-                Log.d("WebSocketCall", "onPong:");
+                Log.e(TAG, "onPong:");
                 mWebSocketListener.onPong(payload);
             }
 
