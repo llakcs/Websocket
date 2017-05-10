@@ -1,16 +1,13 @@
 package com.zh.lee.websocketlibrary.Util;
 
 import android.util.Log;
-
 import com.zh.lee.websocketlibrary.WebSocket;
 import com.zh.lee.websocketlibrary.WebSocketCall;
 import com.zh.lee.websocketlibrary.WebSocketListener;
+import com.zh.lee.websocketlibrary.onMessageCallback;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -55,6 +52,17 @@ public class WebSocketUtil {
             .writeTimeout(3000, TimeUnit.SECONDS)//设置写的超时时间
             .connectTimeout(3000, TimeUnit.SECONDS)//设置连接超时时间
             .build();
+
+    private onMessageCallback OnMessageResult = null;
+    /**
+     * 回调接口
+     * @param OnMessageResult
+     */
+    public void setOnMessageResult(onMessageCallback OnMessageResult){
+        this.OnMessageResult = OnMessageResult;
+    }
+
+
     /**
      * 初始化
      * @param url
@@ -178,20 +186,6 @@ public class WebSocketUtil {
     }
 
 
-
-
-    private OnMessageResult OnMessageResult = null;
-    /**
-     * 回调接口
-     * @param OnMessageResult
-     */
-    public void onMessageCallback(OnMessageResult OnMessageResult){
-        this.OnMessageResult = OnMessageResult;
-    }
-    private interface  OnMessageResult{
-         void onMessage(String message);
-         void onPong(Buffer payload);
-    }
 
 
     }
