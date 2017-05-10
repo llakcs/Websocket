@@ -91,7 +91,7 @@ step 4. websocket init
             }
         });     
         
-step 5. sendmsg
+step 5. SendMessage
 
                /**
      * 需要新开一条线程来发送消息

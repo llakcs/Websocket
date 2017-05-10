@@ -37,7 +37,6 @@ step 4. websocket init
             public void onOpen(WebSocket webSocket, Response response) {
                 Log.e(TAG, "########onOpen");
                 mWebSocket=webSocket;
-//                wsStatus = WS_STATUS_CONNECT;
 
             }
             /**
