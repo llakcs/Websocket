@@ -17,6 +17,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
+import okio.BufferedSource;
 
 /**
  * Created by lee on 2017/5/8.
@@ -32,17 +33,11 @@ public class WebSocketUtil {
     private static final byte WS_STATUS_CLOSE= 0x13;
     private static final byte WS_STATUS_CONNECT = 0X14;
     private static String TAG ="WebSocketUtil";
-    final  static OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
-            .readTimeout(3000, TimeUnit.SECONDS)//设置读取超时时间
-            .writeTimeout(3000, TimeUnit.SECONDS)//设置写的超时时间
-            .connectTimeout(3000, TimeUnit.SECONDS)//设置连接超时时间
-            .build();
     /**
      * 检测链接状态（是否在连接中）
      */
     private static byte wsStatus = WS_STATUS_NULL;
     private static WebSocket mWebSocket;
-    private static final ExecutorService sendExecutor = Executors.newSingleThreadExecutor();
     public static WebSocketUtil mUtil = new WebSocketUtil();
     /**
      * 获取socket连接状态
@@ -51,22 +46,15 @@ public class WebSocketUtil {
     public byte getWsStatus() {
         return wsStatus;
     }
-
-    private WebSocketListener mWebSocketListener = null;
     private WebSocketCall webSocketCall;
-    /**
-     * 回调接口
-     * @param webSocketListener
-     */
-    public void setWebSocketListener(WebSocketListener webSocketListener){
-        this.mWebSocketListener = webSocketListener;
-    }
-
     public static WebSocketUtil getIns(){
         return mUtil;
     }
-
-
+    final  static OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+            .readTimeout(3000, TimeUnit.SECONDS)//设置读取超时时间
+            .writeTimeout(3000, TimeUnit.SECONDS)//设置写的超时时间
+            .connectTimeout(3000, TimeUnit.SECONDS)//设置连接超时时间
+            .build();
     /**
      * 初始化
      * @param url
@@ -81,7 +69,7 @@ public class WebSocketUtil {
                 Log.e(TAG, "########onOpen");
                 mWebSocket=webSocket;
                 wsStatus = WS_STATUS_CONNECT;
-                mWebSocketListener.onOpen(webSocket,response);
+
             }
             /**
              * 连接失败
@@ -93,7 +81,7 @@ public class WebSocketUtil {
             public void onFailure(IOException e, Response response) {
                 Log.e(TAG,"onFailure.response:" + response);
                 wsStatus = WS_STATUS_NULL;
-                mWebSocketListener.onFailure(e,response);
+
             }
 
             /**
@@ -103,15 +91,24 @@ public class WebSocketUtil {
              */
             @Override
             public void onMessage(ResponseBody message) throws IOException {
+                String result;
+                if (message.contentType() == WebSocket.TEXT) {
+                    Log.e(TAG, "onMessage:" + message.source().readByteString().utf8());
+                    result =message.source().readByteString().utf8();
+                } else {
+                    BufferedSource source = message.source();
+                    Log.d("WebSocketCall", "onMessage:" + source.readByteString());
+                    result = source.readByteString().toString();
 
-                Log.e(TAG, "onMessage:" + message.source().readByteString().utf8());
-                mWebSocketListener.onMessage(message);
+                }
+                message.source().close();
+                OnMessageResult.onMessage(result);
             }
 
             @Override
             public void onPong(Buffer payload) {
                 Log.e(TAG, "onPong:");
-                mWebSocketListener.onPong(payload);
+                OnMessageResult.onPong(payload);
             }
 
 
@@ -124,8 +121,8 @@ public class WebSocketUtil {
             @Override
             public void onClose(int code, String reason) {
                 Log.e(TAG,"###websocket.close");
-                mWebSocketListener.onClose(code,reason);
                 wsStatus = WS_STATUS_CLOSE;
+                close(code,reason);
 
             }
         });
@@ -180,6 +177,21 @@ public class WebSocketUtil {
         }
     }
 
+
+
+
+    private OnMessageResult OnMessageResult = null;
+    /**
+     * 回调接口
+     * @param OnMessageResult
+     */
+    public void onMessageCallback(OnMessageResult OnMessageResult){
+        this.OnMessageResult = OnMessageResult;
+    }
+    private interface  OnMessageResult{
+         void onMessage(String message);
+         void onPong(Buffer payload);
+    }
 
 
     }
